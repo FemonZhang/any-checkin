@@ -1,0 +1,41 @@
+name: AnyRouter Daily Check-in
+
+on:
+  schedule:
+    # 每天北京时间 08:05 左右（UTC 00:05）
+    - cron: '5 0 * * *'
+  workflow_dispatch:  # 允许手动触发
+
+jobs:
+  checkin:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Create accounts.json from secrets
+        env:
+          # 支持多账号：用换行分隔多个账号的 JSON
+          ACCOUNTS_JSON: ${{ secrets.ANY_ACCOUNTS_JSON }}
+        run: |
+          if [ -z "$ACCOUNTS_JSON" ]; then
+            echo "错误：没有设置 ACCOUNTS_JSON Secret"
+            exit 1
+          fi
+          echo "$ACCOUNTS_JSON" > accounts.json
+          echo "accounts.json 已生成"
+
+      - name: Run check-in
+        run: |
+          python anyrouter_checkin.py --once --config accounts.json --log-level INFO
+
+      - name: Cleanup (可选)
+        if: always()
+        run: rm -f accounts.json
