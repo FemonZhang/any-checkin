@@ -1,0 +1,22 @@
+{
+  "base_url": "https://anyrouter.top",
+  "proxy": "auto",
+  "schedule_time": "08:05",
+  "jitter_seconds": 300,
+  "request_timeout_seconds": 30,
+  "retries": 3,
+  "account_delay_min_seconds": 2,
+  "account_delay_max_seconds": 6,
+  "log_file": "logs/anyrouter-checkin.log",
+  "accounts": [
+    {
+      "cookie": "session=your-session-cookie; other_cookie=value",
+      "user_id": 12345
+    },
+    {
+      "enabled": false,
+      "cookie": "session=your-other-session-cookie",
+      "user_id": 67890
+    }
+  ]
+}
