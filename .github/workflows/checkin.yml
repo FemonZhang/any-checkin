@@ -2,8 +2,8 @@ name: AnyRouter Daily Check-in
 
 on:
   schedule:
-    # 每天北京时间 08:05 左右（UTC 00:05）
-    - cron: '15 1 * * *'
+    # 每天北京时间 +8小时
+    - cron: '25 1 * * *'
   workflow_dispatch:  # 允许手动触发
 
 jobs:
